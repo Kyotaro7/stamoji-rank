@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stamoji Rank(すたもじランク)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header>
+    <h1 class="main-title">
+      <img src="images/icon.png" class="title-icon" alt="icon">
+      Stamoji Rank<span class="kana">(すたもじランク)</span>
+    </h1>
+
+    <!-- 説明文（修正版） -->
+    <p class="subtitle">
+      LINEクリエイター向けの、LINEスタンプとLINE絵文字のランキング検索<br>
+      ※500位以内まで表示
+    </p>
+  </header>
+
+  <main>
+
+    <!-- 絵文字タイトル -->
+    <h2 class="emoji-title">絵文字の順位を調べる</h2>
+
+    <!-- 絵文字① -->
+    <section class="card emoji-card">
+      <form class="emojiForm" data-key="emoji1">
+        <label>絵文字名①</label>
+        <input type="text" name="my" required />
+
+        <label>キーワード①</label>
+        <input type="text" name="q" required />
+
+        <button type="submit">検索</button>
+      </form>
+
+      <!-- 結果（広告なし） -->
+      <div class="result-box" id="emojiResult1">
+        <p>まだ検索されていません</p>
+      </div>
+    </section>
+
+    <!-- 絵文字② -->
+    <section class="card emoji-card">
+      <form class="emojiForm" data-key="emoji2">
+        <label>絵文字名②</label>
+        <input type="text" name="my" required />
+
+        <label>キーワード②</label>
+        <input type="text" name="q" required />
+
+        <button type="submit">検索</button>
+      </form>
+
+      <!-- ★ 広告①：検索ボタンの直下（最適位置） -->
+      <div class="ad-box">
+        <p class="ad-label">広告</p>
+        <!-- AdSense コードをここに貼る -->
+      </div>
+
+      <!-- ★ 結果（広告の下） -->
+      <div class="result-box" id="emojiResult2">
+        <p>まだ検索されていません</p>
+      </div>
+    </section>
+
+    <!-- スタンプタイトル -->
+    <h2 class="stamp-title">スタンプの順位を調べる</h2>
+
+    <!-- スタンプ① -->
+    <section class="card stamp-card">
+      <form class="stampForm" data-key="stamp1">
+        <label>スタンプ名①</label>
+        <input type="text" name="my" required />
+
+        <label>キーワード①</label>
+        <input type="text" name="q" required />
+
+        <button type="submit">検索</button>
+      </form>
+
+      <!-- 結果（広告なし） -->
+      <div class="result-box" id="stampResult1">
+        <p>まだ検索されていません</p>
+      </div>
+    </section>
+
+    <!-- スタンプ② -->
+    <section class="card stamp-card">
+      <form class="stampForm" data-key="stamp2">
+        <label>スタンプ名②</label>
+        <input type="text" name="my" required />
+
+        <label>キーワード②</label>
+        <input type="text" name="q" required />
+
+        <button type="submit">検索</button>
+      </form>
+
+      <!-- ★ 広告②：検索ボタンの直下（最適位置） -->
+      <div class="ad-box">
+        <p class="ad-label">広告</p>
+        <!-- AdSense コードをここに貼る -->
+      </div>
+
+      <!-- ★ 結果（広告の下） -->
+      <div class="result-box" id="stampResult2">
+        <p>まだ検索されていません</p>
+      </div>
+    </section>
+
+    <!-- ★ 広告③：ページ最下部（footer の上） -->
+    <div class="ad-box">
+      <p class="ad-label">広告</p>
+      <!-- AdSense コードをここに貼る -->
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Stamoji Rank</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

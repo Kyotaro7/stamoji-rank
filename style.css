@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=M+PLUS+Rounded+1c:wght@700&display=swap');
+
+body {
+  margin: 0;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  background: #ffffff;
+  background-image: radial-gradient(#d8eaff 1px, transparent 1px);
+  background-size: 18px 18px;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* -------------------------
+   ヘッダー（高さをスリムに調整）
+------------------------- */
+header {
+  background: #2c3e50;
+  padding: 12px 20px; /* ← 上下を12pxにしてコンパクトに */
+  border-bottom: 4px solid #4aa8ff;
+}
+
+.main-title {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: #ff7eb8;
+  text-shadow: 2px 2px 0 #ffe3f0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-icon {
+  width: 55px;
+  height: 55px;
+  margin-right: 12px;
+}
+
+.kana {
+  font-size: 2rem;
+  color: #ff9ccc;
+  position: relative;
+  top: 2px;
+}
+
+.subtitle {
+  font-size: 1.6rem;
+  margin-top: 4px; /* ← 行間を詰めてスリムに */
+  color: #d8eaff;
+}
+
+/* -------------------------
+   見出し帯（絵文字＝ピンク、スタンプ＝水色）
+------------------------- */
+h2 {
+  font-size: 2.4rem;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-top: 40px;
+  color: #2c3e50;
+}
+
+.emoji-title {
+  background: #ffe3f0;
+  border-left: 6px solid #ff7eb8;
+}
+
+.stamp-title {
+  background: #e8f3ff;
+  border-left: 6px solid #4aa8ff;
+}
+
+/* -------------------------
+   カード（絵文字＝ピンク、スタンプ＝水色）
+------------------------- */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 4px 10px rgba(150, 180, 255, 0.15);
+}
+
+.emoji-card {
+  border: 2px solid #ffbcd6;
+  background: #fff7fb;
+}
+
+.stamp-card {
+  border: 2px solid #c7dfff;
+  background: #f5faff;
+}
+
+/* -------------------------
+   ラベルの上の余白を狭くする
+------------------------- */
+.card form label:first-of-type {
+  margin-top: 5px !important;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-size: 1.8rem;
+}
+
+/* -------------------------
+   入力欄（白背景＋色枠）
+   ＋ 幅を結果枠と完全一致させる
+------------------------- */
+.card input {
+  width: 100%;
+  box-sizing: border-box; /* ← 幅を結果枠と揃える決め手 */
+  padding: 12px;
+  font-size: 1.8rem;
+  margin-top: 5px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.emoji-card input {
+  border: 2px solid #ffbcd6;
+}
+
+.stamp-card input {
+  border: 2px solid #c7dfff;
+}
+
+/* -------------------------
+   ボタン（絵文字＝ピンク、スタンプ＝水色）
+------------------------- */
+button {
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 1.8rem;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.emoji-card button {
+  background: #ff7eb8;
+  box-shadow: 0 4px 0 #d96a9c;
+}
+.emoji-card button:hover {
+  background: #e86aa4;
+}
+
+.stamp-card button {
+  background: #1e90ff;
+  box-shadow: 0 4px 0 #166ac2;
+}
+.stamp-card button:hover {
+  background: #1877d3;
+}
+
+/* -------------------------
+   結果枠（白背景＋色枠）
+------------------------- */
+.result-box {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(150, 180, 255, 0.2);
+  font-size: 1.8rem;
+  background: #ffffff;
+}
+
+.emoji-card .result-box {
+  border: 2px solid #ffbcd6;
+}
+
+.stamp-card .result-box {
+  border: 2px solid #c7dfff;
+}
+
+.result-box p {
+  margin: 4px 0;
+  line-height: 1.35;
+}
+
+/* -------------------------
+   広告枠
+------------------------- */
+.ad-box {
+  margin: 30px 0;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 15px;
+  border: 2px solid #ffd6e8;
+  box-shadow: 0 4px 10px rgba(255, 180, 220, 0.2);
+  text-align: center;
+}
+
+.ad-label {
+  font-size: 1.4rem;
+  color: #ff8fb8;
+}
+
+/* -------------------------
+   フッター
+------------------------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #6a7ba2;
+  font-size: 1.4rem;
+}
+
+/* -------------------------
+   スマホ対応
+------------------------- */
+@media (max-width: 600px) {
+  body {
+    font-size: 1.4rem;
+  }
+  .main-title {
+    font-size: 2.8rem;
+  }
+  .kana {
+    font-size: 1.4rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  input, button {
+    font-size: 1.6rem;
+  }
+}
