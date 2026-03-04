@@ -1,4 +1,4 @@
-const API_BASE = "https://emoji-rank-api-production-82e5.up.railway.app";
+const API_BASE = "https://emoji-rank-api-production.up.railway.app";
 
 // 絵文字フォーム（emoji1 / emoji2）
 document.querySelectorAll(".emojiForm").forEach(form => {
@@ -31,8 +31,8 @@ document.querySelectorAll(".emojiForm").forEach(form => {
       }
 
       resultBox.innerHTML = `
-        <p><strong>絵文字名：</strong>${data.my}</p>
-        <p><strong>キーワード：</strong>${data.q}</p>
+        <p><strong>絵文字名：</strong>${data.myEmojiName}</p>
+        <p><strong>キーワード：</strong>${data.keyword}</p>
         <p><strong>順位：</strong>${data.rank} 位</p>
       `;
     } catch (err) {
