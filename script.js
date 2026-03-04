@@ -1,210 +1,75 @@
-function savePreviousRank(key, rank) {
-  localStorage.setItem(key, String(rank));
-}
+// ===============================
+//  Stamoji Rank - script.js 完全版
+//  Railway API 対応
+// ===============================
 
-function getPreviousRank(key) {
-  const v = localStorage.getItem(key);
-  return v === null ? null : Number(v);
-}
+// あなたの Railway API の URL
+const API_BASE = "https://emoji-rank-api-production-82e5.up.railway.app";
 
-function saveDate(key) {
-  const d = new Date();
-  const formatted = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
-  localStorage.setItem(key, formatted);
-}
+// -------------------------------
+// 絵文字①の検索
+// -------------------------------
+document.getElementById("emoji1-btn").addEventListener("click", async () => {
+  const name = document.getElementById("emoji1-name").value.trim();
+  const keyword = document.getElementById("emoji1-keyword").value.trim();
+  const resultBox = document.getElementById("emoji1-result");
 
-function getDate(key) {
-  return localStorage.getItem(key);
-}
-
-function saveInput(key, my, q) {
-  localStorage.setItem(key + ":my", my);
-  localStorage.setItem(key + ":q", q);
-}
-
-function loadInput(key) {
-  return {
-    my: localStorage.getItem(key + ":my") ?? "",
-    q: localStorage.getItem(key + ":q") ?? ""
-  };
-}
-
-function diffRank(prev, now) {
-  if (!prev) return "";
-  const diff = prev - now;
-  if (diff > 0) return `（＋${diff}）`;
-  if (diff < 0) return `（${diff}）`;
-  return "（±0）";
-}
-
-async function fetchRank(url) {
-  const res = await fetch(url);
-  return await res.json();
-}
-
-function makeComboKey(baseKey, my, q) {
-  return `${baseKey}:${my}:${q}`;
-}
-
-function formatRankText(rank) {
-  if (!rank || rank === 9999 || rank > 500) {
-    return "500位以内にありません";
+  if (!name || !keyword) {
+    resultBox.innerHTML = "<p>絵文字名とキーワードを入力してください。</p>";
+    return;
   }
-  return `${rank}位`;
-}
 
-/* -------------------------
-   ページ読み込み時：入力欄と前回結果を復元（絵文字）
-------------------------- */
-document.querySelectorAll(".emojiForm").forEach((form, index) => {
-  const baseKey = form.dataset.key;
-  const saved = loadInput(baseKey);
+  resultBox.innerHTML = "<p>検索中...</p>";
 
-  form.querySelector('input[name="my"]').value = saved.my;
-  form.querySelector('input[name="q"]').value = saved.q;
+  try {
+    const res = await fetch(`${API_BASE}/emoji?name=${encodeURIComponent(name)}&keyword=${encodeURIComponent(keyword)}`);
+    const data = await res.json();
 
-  const comboKey = makeComboKey(baseKey, saved.my, saved.q);
-  const prevRank = getPreviousRank(comboKey);
-  const prevDate = getDate(comboKey + ":date");
-
-  const resultBox = document.getElementById(`emojiResult${index + 1}`);
-
-  if (prevRank !== null) {
-    resultBox.innerHTML = `
-      <p>今回：まだ検索されていません</p>
-      <p>前回：${formatRankText(prevRank)}（${prevDate ?? "-"}）</p>
-    `;
-  }
-});
-
-/* -------------------------
-   ページ読み込み時：入力欄と前回結果を復元（スタンプ）
-------------------------- */
-document.querySelectorAll(".stampForm").forEach((form, index) => {
-  const baseKey = form.dataset.key;
-  const saved = loadInput(baseKey);
-
-  form.querySelector('input[name="my"]').value = saved.my;
-  form.querySelector('input[name="q"]').value = saved.q;
-
-  const comboKey = makeComboKey(baseKey, saved.my, saved.q);
-  const prevRank = getPreviousRank(comboKey);
-  const prevDate = getDate(comboKey + ":date");
-
-  const resultBox = document.getElementById(`stampResult${index + 1}`);
-
-  if (prevRank !== null) {
-    resultBox.innerHTML = `
-      <p>今回：まだ検索されていません</p>
-      <p>前回：${formatRankText(prevRank)}（${prevDate ?? "-"}）</p>
-    `;
-  }
-});
-
-/* -------------------------
-   絵文字検索
-------------------------- */
-document.querySelectorAll(".emojiForm").forEach((form, index) => {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const baseKey = form.dataset.key;
-    const resultBox = document.getElementById(`emojiResult${index + 1}`);
-
-    const fd = new FormData(form);
-    const my = fd.get("my");
-    const q = fd.get("q");
-
-    saveInput(baseKey, my, q);
-
-    const comboKey = makeComboKey(baseKey, my, q);
-    const dateKey = comboKey + ":date";
-
-    resultBox.innerHTML = `<p>検索中…</p>`;
-
-    const data = await fetchRank(`/rank?my=${encodeURIComponent(my)}&q=${encodeURIComponent(q)}`);
-
-    const nowRank = data.rank ?? 9999;
-    const prevRank = getPreviousRank(comboKey);
-    const prevDate = getDate(dateKey);
-
-    const displayNow = formatRankText(nowRank);
-
-    let displayPrev = "-";
-    let diff = "";
-    let displayPrevDate = "-";
-
-    if (prevRank !== null) {
-      displayPrev = formatRankText(prevRank);
-      displayPrevDate = prevDate ?? "-";
-
-      if (prevRank <= 500 && nowRank <= 500) {
-        diff = diffRank(prevRank, nowRank);
-      }
+    if (data.error) {
+      resultBox.innerHTML = `<p>${data.error}</p>`;
+      return;
     }
 
-    savePreviousRank(comboKey, nowRank);
-    saveDate(dateKey);
-
-    const nowDate = getDate(dateKey);
-
     resultBox.innerHTML = `
-      <p>今回：${displayNow} ${diff}（${nowDate}）</p>
-      <p>前回：${displayPrev}（${displayPrevDate}）</p>
+      <p><strong>絵文字名：</strong>${data.name}</p>
+      <p><strong>キーワード：</strong>${data.keyword}</p>
+      <p><strong>順位：</strong>${data.rank} 位</p>
     `;
-  });
+  } catch (err) {
+    resultBox.innerHTML = "<p>エラーが発生しました（API に接続できません）。</p>";
+  }
 });
 
-/* -------------------------
-   スタンプ検索
-------------------------- */
-document.querySelectorAll(".stampForm").forEach((form, index) => {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+// -------------------------------
+// 絵文字②の検索
+// -------------------------------
+document.getElementById("emoji2-btn").addEventListener("click", async () => {
+  const name = document.getElementById("emoji2-name").value.trim();
+  const keyword = document.getElementById("emoji2-keyword").value.trim();
+  const resultBox = document.getElementById("emoji2-result");
 
-    const baseKey = form.dataset.key;
-    const resultBox = document.getElementById(`stampResult${index + 1}`);
+  if (!name || !keyword) {
+    resultBox.innerHTML = "<p>絵文字名とキーワードを入力してください。</p>";
+    return;
+  }
 
-    const fd = new FormData(form);
-    const my = fd.get("my");
-    const q = fd.get("q");
+  resultBox.innerHTML = "<p>検索中...</p>";
 
-    saveInput(baseKey, my, q);
+  try {
+    const res = await fetch(`${API_BASE}/emoji?name=${encodeURIComponent(name)}&keyword=${encodeURIComponent(keyword)}`);
+    const data = await res.json();
 
-    const comboKey = makeComboKey(baseKey, my, q);
-    const dateKey = comboKey + ":date";
-
-    resultBox.innerHTML = `<p>検索中…</p>`;
-
-    const data = await fetchRank(`/rank-stamp?my=${encodeURIComponent(my)}&q=${encodeURIComponent(q)}`);
-
-    const nowRank = data.rank ?? 9999;
-    const prevRank = getPreviousRank(comboKey);
-    const prevDate = getDate(dateKey);
-
-    const displayNow = formatRankText(nowRank);
-
-    let displayPrev = "-";
-    let diff = "";
-    let displayPrevDate = "-";
-
-    if (prevRank !== null) {
-      displayPrev = formatRankText(prevRank);
-      displayPrevDate = prevDate ?? "-";
-
-      if (prevRank <= 500 && nowRank <= 500) {
-        diff = diffRank(prevRank, nowRank);
-      }
+    if (data.error) {
+      resultBox.innerHTML = `<p>${data.error}</p>`;
+      return;
     }
 
-    savePreviousRank(comboKey, nowRank);
-    saveDate(dateKey);
-
-    const nowDate = getDate(dateKey);
-
     resultBox.innerHTML = `
-      <p>今回：${displayNow} ${diff}（${nowDate}）</p>
-      <p>前回：${displayPrev}（${displayPrevDate}）</p>
+      <p><strong>絵文字名：</strong>${data.name}</p>
+      <p><strong>キーワード：</strong>${data.keyword}</p>
+      <p><strong>順位：</strong>${data.rank} 位</p>
     `;
-  });
+  } catch (err) {
+    resultBox.innerHTML = "<p>エラーが発生しました（API に接続できません）。</p>";
+  }
 });
